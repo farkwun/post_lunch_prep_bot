@@ -6,17 +6,13 @@ AUTH_IDS = set()
 
 PASSWORD = "prep"
 
+# COMMANDS
 HELP = "help"
 TOPIC = "topic"
 RESOURCE = "resource"
 ONE = "one"
 TWO = "two"
 PRINT = "print"
-
-ENV_RESOURCE = "PLP_RESOURCE"
-ENV_TOPIC = "PLP_TOPIC"
-ENV_ONE = "PLP_ONE"
-ENV_TWO = "PLP_TWO"
 
 COMMAND_IDX = 0
 
@@ -27,6 +23,42 @@ COMMANDS = {
     ONE: lambda command: set_one(command),
     TWO: lambda command: set_two(command),
     PRINT: lambda command: print_setup(command)
+}
+
+# ENV VARS
+ENV_RESOURCE = "PLP_RESOURCE"
+ENV_TOPIC = "PLP_TOPIC"
+ENV_ONE = "PLP_ONE"
+ENV_TWO = "PLP_TWO"
+def get_env(key):
+    return environ.get(key, "")
+
+# ANNOUNCEMENTS
+INTRO = "intro"
+ANNOUNCE = "announce"
+DISCUSS = "discuss"
+ANNOUNCER_EMAIL = "post-lunch-prep-announcer-bot@recurse.zulipchat.com"
+
+ANNOUNCEMENTS = {
+    INTRO: lambda: (
+        "Hi @*Currently at RC*\n\n" +
+        "Today's topic will be {}!\n\n".format(get_env(ENV_TOPIC)) +
+        "Today's resource on our topic can be found [here]({}). Please do give it a read through if you'd like to refresh your understanding and see some code samples!\n\n".format(get_env(ENV_RESOURCE)) +
+        "The questions will be projected in the Mainspace from 1:45 PM to 2:45 PM. The leftmost question will tend to be more introductory, while the rightmost question will typically have a more involved implementation."),
+
+    ANNOUNCE: lambda: (
+        "For those following along, today's questions are:\n\n" +
+        "1) {}\n".format(get_env(ENV_ONE)) +
+        "2) {}\n\n".format(get_env(ENV_TWO)) +
+        "If you're interested in pairing come to the projector in the main space and we'll see if we can match you up :)\n\n" +
+        "Please feel free to join us in Turing @ 2:45 PM for our discussion!"
+    ),
+
+    DISCUSS: lambda: (
+        "Our post-lunch prep discussion will be in Turing in 10 minutes!\n\n"
+        "Please come join regardless of whether you have completed, or even attempted, the questions :)\n\n"
+        "If you have a solution you would like to present or discuss, send it over via PM."
+    )
 }
 
 def help(command):
@@ -42,7 +74,7 @@ def set_resource(command):
     environ["PLP_RESOURCE"] = command[1]
     return ("Set resource to {}\n".format(get_env(ENV_RESOURCE)))
 def set_topic(command):
-    environ["PLP_TOPIC"] = command[1]
+    environ["PLP_TOPIC"] = ' '.join(command[1:])
     return ("Set topic to {}\n".format(get_env(ENV_TOPIC)))
 def set_one(command):
     environ["PLP_ONE"] = command[1]
@@ -63,21 +95,33 @@ def print_setup(command):
            )
            )
 
-def get_env(key):
-    return environ.get(key, "")
+
 class HelloWorldHandler(object):
     def usage(self) -> str:
         return '''
         This is a boilerplate bot that responds to a user query with
-        "beep boop", which is robot for "Hello World".
+        "beep boop", which is robot for  "Hello World".
 
         This bot can be used as a template for other, more
         sophisticated, bots.
         '''
 
+    def announce(self, message : Any, bot_handler: Any):
+        bot_handler.send_message(dict(
+            type="private",
+            to="thisisbryanchu@gmail.com",
+            content=message)
+        )
+
     def handle_message(self, message: Any, bot_handler: Any) -> None:
+        for key in message.keys():
+            print(key, message[key])
         user_id = message['sender_id']
+        user_email = message['sender_email']
         sent_msg = message['content']
+        if user_email == ANNOUNCER_EMAIL:
+            self.announce(ANNOUNCEMENTS[sent_msg](), bot_handler)
+            return
         if user_id in AUTH_IDS:
             bot_handler.send_reply(message, self.parse_message(sent_msg))
         else:
@@ -101,6 +145,7 @@ class HelloWorldHandler(object):
             (cmd_arr[0].lower() in COMMANDS) and
             (
                 (len(cmd_arr) == 1 and (cmd_arr[0] == HELP or cmd_arr[0] == PRINT)) or
+                (cmd_arr[0] == TOPIC) or
                 (len(cmd_arr) == 2)
             )
         )
