@@ -27,12 +27,59 @@ COMMANDS = {
     PRINT: lambda command: print_setup(command)
 }
 
+def help(command):
+    return ("Welcome to Post-lunch Prep Setup!\n\n" + 
+            "To set today's topic, enter '{} <topic_title>'\n".format(TOPIC) + 
+            "To set today's resource, enter '{} <link>'\n".format(RESOURCE) + 
+            "To set today's host, enter '{} <@mention_user>'\n".format(HOST) +
+            "To set the first question, enter '{} <link>'\n".format(ONE) + 
+            "To set the second question, enter '{} <link>'\n".format(TWO) +
+            "To output today's setup, enter '{}'\n\n".format(PRINT) +
+            "Separate commands by line breaks!"
+    )
+
+def set_resource(command):
+    environ["PLP_RESOURCE"] = command[1]
+    return ("Set resource to {}\n".format(get_env(ENV_RESOURCE)))
+
+def set_topic(command):
+    environ["PLP_TOPIC"] = ' '.join(command[1:])
+    return ("Set topic to {}\n".format(get_env(ENV_TOPIC)))
+
+def set_host(command):
+    environ["PLP_HOST"] = ' '.join(command[1:])
+    return ("Set host to {}\n".format(get_env(ENV_HOST)))
+
+def set_one(command):
+    environ["PLP_ONE"] = command[1]
+    return ("Set first question to {}\n".format(get_env(ENV_ONE)))
+
+def set_two(command):
+    environ["PLP_TWO"] = command[1]
+    return ("Set second question to {}\n".format(get_env(ENV_TWO)))
+
+def print_setup(command):
+    return("Today's setup is:\n\n"
+           "Topic: {topic}\n\n"
+           "Host: {host}\n\n"
+           "Resource :{resource}\n\n"
+           "First q: {one}\n\n"
+           "Second q: {two}\n\n".format(
+               topic=get_env(ENV_TOPIC),
+               host=get_env(ENV_HOST),
+               resource=get_env(ENV_RESOURCE),
+               one=get_env(ENV_ONE),
+               two=get_env(ENV_TWO)
+           )
+    )
+
 # ENV VARS
 ENV_RESOURCE = "PLP_RESOURCE"
 ENV_TOPIC = "PLP_TOPIC"
 ENV_ONE = "PLP_ONE"
 ENV_TWO = "PLP_TWO"
 ENV_HOST = "PLP_HOST"
+
 def get_env(key):
     return environ.get(key, "")
 
@@ -63,47 +110,6 @@ ANNOUNCEMENTS = {
         "If you have a solution you would like to present or discuss, send it over via PM to {}.".format(get_env(ENV_HOST))
     )
 }
-
-def help(command):
-    return ("Welcome to Post-lunch Prep Setup!\n\n" + 
-            "To set today's topic, enter '{} <topic_title>'\n".format(TOPIC) + 
-            "To set today's resource, enter '{} <link>'\n".format(RESOURCE) + 
-            "To set today's host, enter '{} <@mention_user>'\n".format(HOST) +
-            "To set the first question, enter '{} <link>'\n".format(ONE) + 
-            "To set the second question, enter '{} <link>'\n".format(TWO) +
-            "To output today's setup, enter '{}'\n\n".format(PRINT) +
-            "Separate commands by line breaks!"
-    )
-def set_resource(command):
-    environ["PLP_RESOURCE"] = command[1]
-    return ("Set resource to {}\n".format(get_env(ENV_RESOURCE)))
-def set_topic(command):
-    environ["PLP_TOPIC"] = ' '.join(command[1:])
-    return ("Set topic to {}\n".format(get_env(ENV_TOPIC)))
-def set_host(command):
-    environ["PLP_HOST"] = ' '.join(command[1:])
-    return ("Set host to {}\n".format(get_env(ENV_HOST)))
-def set_one(command):
-    environ["PLP_ONE"] = command[1]
-    return ("Set first question to {}\n".format(get_env(ENV_ONE)))
-def set_two(command):
-    environ["PLP_TWO"] = command[1]
-    return ("Set second question to {}\n".format(get_env(ENV_TWO)))
-def print_setup(command):
-    return("Today's setup is:\n\n"
-           "Topic: {topic}\n\n"
-           "Host: {host}\n\n"
-           "Resource :{resource}\n\n"
-           "First q: {one}\n\n"
-           "Second q: {two}\n\n".format(
-               topic=get_env(ENV_TOPIC),
-               host=get_env(ENV_HOST),
-               resource=get_env(ENV_RESOURCE),
-               one=get_env(ENV_ONE),
-               two=get_env(ENV_TWO)
-           )
-           )
-
 
 class HelloWorldHandler(object):
     def usage(self) -> str:
