@@ -117,8 +117,9 @@ class HelloWorldHandler(object):
 
     def announce(self, message : Any, bot_handler: Any):
         bot_handler.send_message(dict(
-            type="private",
-            to="thisisbryanchu@gmail.com",
+            type="stream",
+            to="455 Broadway",
+            subject="Post-lunch Prep!",
             content=message)
         )
 
