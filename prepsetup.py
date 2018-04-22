@@ -116,6 +116,10 @@ class HelloWorldHandler(object):
     def handle_message(self, message: Any, bot_handler: Any) -> None:
         for key in message.keys():
             print(key, message[key])
+        msg_type = message['type']
+        if msg_type != 'private':
+            bot_handler.send_reply(message, "Sorry! I only respond to PMs :(")
+            return
         user_id = message['sender_id']
         user_email = message['sender_email']
         sent_msg = message['content']
