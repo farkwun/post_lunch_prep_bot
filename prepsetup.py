@@ -9,6 +9,7 @@ PASSWORD = "prep"
 # COMMANDS
 HELP = "help"
 TOPIC = "topic"
+HOST = "host"
 RESOURCE = "resource"
 ONE = "one"
 TWO = "two"
@@ -19,6 +20,7 @@ COMMAND_IDX = 0
 COMMANDS = {
     HELP: lambda command: help(command),
     TOPIC: lambda command: set_topic(command),
+    HOST: lambda command: set_host(command),
     RESOURCE: lambda command: set_resource(command),
     ONE: lambda command: set_one(command),
     TWO: lambda command: set_two(command),
@@ -30,6 +32,7 @@ ENV_RESOURCE = "PLP_RESOURCE"
 ENV_TOPIC = "PLP_TOPIC"
 ENV_ONE = "PLP_ONE"
 ENV_TWO = "PLP_TWO"
+ENV_HOST = "PLP_HOST"
 def get_env(key):
     return environ.get(key, "")
 
@@ -50,14 +53,14 @@ ANNOUNCEMENTS = {
         "For those following along, today's questions are:\n\n" +
         "1) {}\n".format(get_env(ENV_ONE)) +
         "2) {}\n\n".format(get_env(ENV_TWO)) +
-        "If you're interested in pairing come to the projector in the main space and we'll see if we can match you up :)\n\n" +
+        "If you're interested in pairing come to the projector in the main space and we'll see if we can match you up :). {} will be running today's session!\n\n".format(get_env(ENV_HOST)) +
         "Please feel free to join us in Turing @ 2:45 PM for our discussion!"
     ),
 
     DISCUSS: lambda: (
         "Our post-lunch prep discussion will be in Turing in 10 minutes!\n\n"
         "Please come join regardless of whether you have completed, or even attempted, the questions :)\n\n"
-        "If you have a solution you would like to present or discuss, send it over via PM."
+        "If you have a solution you would like to present or discuss, send it over via PM to {}.".format(get_env(ENV_HOST))
     )
 }
 
@@ -65,6 +68,7 @@ def help(command):
     return ("Welcome to Post-lunch Prep Setup!\n\n" + 
             "To set today's topic, enter '{} <topic_title>'\n".format(TOPIC) + 
             "To set today's resource, enter '{} <link>'\n".format(RESOURCE) + 
+            "To set today's host, enter '{} <@mention_user>'\n".format(HOST) +
             "To set the first question, enter '{} <link>'\n".format(ONE) + 
             "To set the second question, enter '{} <link>'\n".format(TWO) +
             "To output today's setup, enter '{}'\n\n".format(PRINT) +
@@ -76,6 +80,9 @@ def set_resource(command):
 def set_topic(command):
     environ["PLP_TOPIC"] = ' '.join(command[1:])
     return ("Set topic to {}\n".format(get_env(ENV_TOPIC)))
+def set_host(command):
+    environ["PLP_HOST"] = ' '.join(command[1:])
+    return ("Set host to {}\n".format(get_env(ENV_HOST)))
 def set_one(command):
     environ["PLP_ONE"] = command[1]
     return ("Set first question to {}\n".format(get_env(ENV_ONE)))
@@ -83,15 +90,17 @@ def set_two(command):
     environ["PLP_TWO"] = command[1]
     return ("Set second question to {}\n".format(get_env(ENV_TWO)))
 def print_setup(command):
-    return("Today's setup is:\n"
-           "Topic: {0}\n\n"
-           "Resource :{1}\n\n"
-           "First q: {2}\n\n"
-           "Second q: {3}\n\n".format(
-               get_env(ENV_TOPIC),
-               get_env(ENV_RESOURCE),
-               get_env(ENV_ONE),
-               get_env(ENV_TWO)
+    return("Today's setup is:\n\n"
+           "Topic: {topic}\n\n"
+           "Host: {host}\n\n"
+           "Resource :{resource}\n\n"
+           "First q: {one}\n\n"
+           "Second q: {two}\n\n".format(
+               topic=get_env(ENV_TOPIC),
+               host=get_env(ENV_HOST),
+               resource=get_env(ENV_RESOURCE),
+               one=get_env(ENV_ONE),
+               two=get_env(ENV_TWO)
            )
            )
 
@@ -149,7 +158,7 @@ class HelloWorldHandler(object):
             (cmd_arr[0].lower() in COMMANDS) and
             (
                 (len(cmd_arr) == 1 and (cmd_arr[0] == HELP or cmd_arr[0] == PRINT)) or
-                (cmd_arr[0] == TOPIC) or
+                (cmd_arr[0] == TOPIC or cmd_arr[0] == HOST) or
                 (len(cmd_arr) == 2)
             )
         )
