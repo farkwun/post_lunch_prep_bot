@@ -157,7 +157,8 @@ class HelloWorldHandler(object):
         commands = string.splitlines()
         response = ""
         for command in commands:
-            response += self.parse_command(command)
+            if command:
+                response += self.parse_command(command)
         return response
 
     def command_valid(self, cmd_arr):
