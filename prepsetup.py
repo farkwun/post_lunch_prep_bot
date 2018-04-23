@@ -28,11 +28,11 @@ COMMANDS = {
 }
 
 def help(command):
-    return ("Welcome to Post-lunch Prep Setup!\n\n" + 
-            "To set today's topic, enter '{} <topic_title>'\n".format(TOPIC) + 
-            "To set today's resource, enter '{} <link>'\n".format(RESOURCE) + 
+    return ("Welcome to Post-lunch Prep Setup!\n\n" +
+            "To set today's topic, enter '{} <topic_title>'\n".format(TOPIC) +
+            "To set today's resource, enter '{} <link>'\n".format(RESOURCE) +
             "To set today's host, enter '{} <@mention_user>'\n".format(HOST) +
-            "To set the first question, enter '{} <link>'\n".format(ONE) + 
+            "To set the first question, enter '{} <link>'\n".format(ONE) +
             "To set the second question, enter '{} <link>'\n".format(TWO) +
             "To output today's setup, enter '{}'\n\n".format(PRINT) +
             "Separate commands by line breaks!"

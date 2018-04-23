@@ -15,7 +15,7 @@ def send_message(message):
     request = {
         "subject": "Post-lunch Prep!",
          "type": "private",
-         "to": "post-lunch-prep-setup-bot@recurse.zulipchat.com",
+         "to": "prep-bot@recurse.zulipchat.com",
          "content": message
     }
     result = client.send_message(request)
