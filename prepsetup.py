@@ -162,11 +162,12 @@ class HelloWorldHandler(object):
         return response
 
     def command_valid(self, cmd_arr):
+        cmd = cmd_arr[0].lower()
         return (
-            (cmd_arr[0].lower() in COMMANDS) and
+            (cmd in COMMANDS) and
             (
-                (len(cmd_arr) == 1 and (cmd_arr[0] == HELP or cmd_arr[0] == PRINT)) or
-                (cmd_arr[0] == TOPIC or cmd_arr[0] == HOST) or
+                (len(cmd_arr) == 1 and (cmd == HELP or cmd == PRINT)) or
+                (cmd == TOPIC or cmd == HOST) or
                 (len(cmd_arr) == 2)
             )
         )
