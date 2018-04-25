@@ -91,7 +91,7 @@ ANNOUNCER_EMAIL = "post-lunch-prep-announcer-bot@recurse.zulipchat.com"
 
 ANNOUNCEMENTS = {
     INTRO: lambda: (
-        "Hi @*Currently at RC*\n\n" +
+        "Hi everyone!\n\n" +
         "Today's topic will be {}!\n\n".format(get_env(ENV_TOPIC)) +
         "Today's resource on our topic can be found [here]({}). Please do give it a read through if you'd like to refresh your understanding and see some code samples!\n\n".format(get_env(ENV_RESOURCE)) +
         "The questions will be projected in the Mainspace from 1:45 PM to 2:45 PM. The leftmost question will tend to be more introductory, while the rightmost question will typically have a more involved implementation."),
