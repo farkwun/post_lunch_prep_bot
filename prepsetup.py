@@ -6,6 +6,8 @@ AUTH_IDS = set()
 
 PASSWORD = "prep"
 
+ACTIVE = True
+
 # COMMANDS
 HELP = "help"
 TOPIC = "topic"
@@ -14,6 +16,8 @@ RESOURCE = "resource"
 ONE = "one"
 TWO = "two"
 PRINT = "print"
+STOP = "stop"
+START = "start"
 
 COMMAND_IDX = 0
 
@@ -24,6 +28,8 @@ COMMANDS = {
     RESOURCE: lambda command: set_resource(command),
     ONE: lambda command: set_one(command),
     TWO: lambda command: set_two(command),
+    STOP: lambda command: stop(command),
+    START: lambda command: start(command),
     PRINT: lambda command: print_setup(command)
 }
 
@@ -35,6 +41,7 @@ def help(command):
             "To set the first question, enter '{} <link>'\n".format(ONE) +
             "To set the second question, enter '{} <link>'\n".format(TWO) +
             "To output today's setup, enter '{}'\n\n".format(PRINT) +
+            "To stop me from taking inputs or making announcements, enter '{}'\n\n".format(STOP) +
             "Separate commands by line breaks!"
     )
 
@@ -58,8 +65,18 @@ def set_two(command):
     environ["PLP_TWO"] = command[1]
     return ("Set second question to {}\n".format(get_env(ENV_TWO)))
 
+def stop(command):
+    global ACTIVE
+    ACTIVE = False
+    return ("PrepBot stopped!")
+
+def start(command):
+    global ACTIVE
+    ACTIVE = True
+    return ("PrepBot started!")
+
 def print_setup(command):
-    return("Today's setup is:\n\n"
+    return ("Today's setup is:\n\n"
            "Topic: {topic}\n\n"
            "Host: {host}\n\n"
            "Resource :{resource}\n\n"
@@ -123,7 +140,7 @@ class HelloWorldHandler(object):
         '''
 
     def announce(self, message : Any, bot_handler: Any):
-        bot_handler.send_message(dict(
+        ACTIVE and bot_handler.send_message(dict(
             type="stream",
             to="455 Broadway",
             subject="Post-lunch Prep!",
@@ -144,7 +161,10 @@ class HelloWorldHandler(object):
             self.announce(ANNOUNCEMENTS[sent_msg](), bot_handler)
             return
         if user_id in AUTH_IDS:
-            bot_handler.send_reply(message, self.parse_message(sent_msg))
+            response = self.parse_message(sent_msg)
+            if not ACTIVE:
+                response = "I am currently stopped. Type '{}' to reactivate me!".format(START)
+            bot_handler.send_reply(message, response)
         else:
             bot_handler.send_reply(message, self.authenticate(user_id, sent_msg))
 
@@ -167,7 +187,7 @@ class HelloWorldHandler(object):
         return (
             (cmd in COMMANDS) and
             (
-                (len(cmd_arr) == 1 and (cmd == HELP or cmd == PRINT)) or
+                (len(cmd_arr) == 1 and (cmd == HELP or cmd == PRINT or cmd == START or cmd == STOP)) or
                 (cmd == TOPIC or cmd == HOST) or
                 (len(cmd_arr) == 2)
             )
