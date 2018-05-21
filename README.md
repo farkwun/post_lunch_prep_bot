@@ -5,16 +5,15 @@ Post-lunch-prep bot uses the [python-zulip-api](https://github.com/zulip/python-
 
 The main bot, found in prepsetup.py, takes in user input via private message and performs the actual announcements.
 
-A secondary bot, with credentials defined in announce.py, is never actually run - rather, the credentials are used to fire off a Python script scheduled using cron.
+A secondary bot, with credentials used in announce.py, is never actually run - rather, the credentials are used in a Python script scheduled using cron.
 
 ## Installation
 
 This project has the following dependencies
 - [python-zulip-api](https://github.com/zulip/python-zulip-api)
 - cron
-- two zuliprc files
-  - The post-lunch-prep bot itself
-  - A scheduling bot
+- A zuliprc file for the post-lunch-prep bot called zuliprc (a sample zuliprc can be found in the repository)
+- A zuliprc file for the scheduling bot called announcerzuliprc (a sample announcerzuliprc can be found in the repository)
 
 To run the bot - 
 
@@ -22,8 +21,7 @@ To run the bot -
 2) Navigate to python-zulip-api/zulip_bots/zulip_bots/bots/
 3) Clone this repository
 4) Navigate into the repository folder
-5) Download the zuliprc for whichever bot you'd like to act as the main bot from Zulip
-6) Place the zuliprc in this repository directory
+5) Ensure the zuliprc credentials are set
 7) Run `chmod +x deploy_sample.sh`
 8) Run `./deploy_sample.sh`
 
@@ -31,6 +29,7 @@ To set up the cron -
 
 1) Install `cron` on your system if not already installed
 2) Add the cron jobs defined in assets/sample_cron to your machine's crontab taking care to replace $BOT_DIR_WITH_ANNOUNCE_PY with whichever directory contains the announce.py file
+3) Ensure the announcerzuliprc credentials are set
 
 ## Contributing
 
