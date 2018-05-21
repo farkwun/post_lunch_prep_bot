@@ -15,7 +15,7 @@ This project has the following dependencies
 - A zuliprc file for the post-lunch-prep bot called zuliprc (a sample zuliprc can be found in the repository)
 - A zuliprc file for the scheduling bot called announcerzuliprc (a sample announcerzuliprc can be found in the repository)
 
-To run the bot - 
+### 1 - Run the bot 
 
 1) Clone the [python-zulip-api](https://github.com/zulip/python-zulip-api) repository
 2) Navigate to python-zulip-api/zulip_bots/zulip_bots/bots/
@@ -25,11 +25,15 @@ To run the bot -
 7) Run `chmod +x deploy_sample.sh`
 8) Run `./deploy_sample.sh`
 
-To set up the cron - 
+ ### 2 - Set up the cron
 
 1) Install `cron` on your system if not already installed
 2) Add the cron jobs defined in assets/sample_cron to your machine's crontab taking care to replace $BOT_DIR_WITH_ANNOUNCE_PY with whichever directory contains the announce.py file
 3) Ensure the announcerzuliprc credentials are set
+
+### 3 - Check if working
+
+Send a private message with the text "help" to PrepBot in Zulip.
 
 ## Contributing
 
