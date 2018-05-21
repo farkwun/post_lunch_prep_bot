@@ -7,9 +7,7 @@ from prepsetup import INTRO, ANNOUNCE, DISCUSS
 
 def send_message(message):
     client = zulip.Client(
-        site="https://recurse.zulipchat.com",
-        email="post-lunch-prep-announcer-bot@recurse.zulipchat.com",
-        api_key="fr3P5hi8O1F9jUqae5WQWSrTz2krzf8T"
+        config_file="announcerzuliprc"
     )
 
     request = {
