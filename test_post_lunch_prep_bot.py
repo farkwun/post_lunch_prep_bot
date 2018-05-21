@@ -1,7 +1,7 @@
 from zulip_bots.test_lib import BotTestCase
 
 class TestHelpBot(BotTestCase):
-    bot_name = "post-lunch-prep-bot"  # type: str
+    bot_name = "post_lunch_prep_bot"  # type: str
 
     def test_bot(self) -> None:
         dialog = [

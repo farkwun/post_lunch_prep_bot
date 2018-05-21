@@ -1,9 +1,9 @@
-# post-lunch-prep-bot
+# post_lunch_prep_bot
 A Zulip bot for running Post-lunch Prep at RC
 
 Post-lunch-prep bot uses the [python-zulip-api](https://github.com/zulip/python-zulip-api) to run the Post-lunch Prep event at RC.
 
-The main bot (post-lunch-prep-bot.py) takes in user input via private message to configure the days questions and performs the actual announcements.
+The main bot (post_lunch_prep_bot.py) takes in user input via private message to configure the days questions and performs the actual announcements.
 
 A secondary script (announce.py) run via a scheduled cron and triggers main bot to annouce post lunch prep. This is a workaround as zulip bots don't currently support scheduled actions.
 
