@@ -2,7 +2,7 @@ import json
 import os
 import zulip
 
-from prepsetup import INTRO, ANNOUNCE, DISCUSS
+from prepbot import INTRO, ANNOUNCE, DISCUSS
 
 
 def send_message(message):

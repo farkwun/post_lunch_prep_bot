@@ -1,10 +1,10 @@
 #!/bin/bash
 
-pkill -f prepsetup
+pkill -f prepbot
 
 git reset --hard HEAD
 git pull
 
 pip install -r requirements.txt
 
-zulip-run-bot prepsetup --config-file zuliprc &> error.log &disown;
+zulip-run-bot prepbot --config-file zuliprc &> error.log &disown;
