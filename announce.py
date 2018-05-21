@@ -2,8 +2,7 @@ import json
 import os
 import zulip
 
-from prepbot import INTRO, ANNOUNCE, DISCUSS
-
+from post-lunch-prep-bot import INTRO, ANNOUNCE, DISCUSS
 
 def send_message(message):
     client = zulip.Client(
