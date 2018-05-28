@@ -111,7 +111,7 @@ ANNOUNCEMENTS = {
         "Hi everyone!\n\n" +
         "Today's topic will be {}!\n\n".format(get_env(ENV_TOPIC)) +
         "Today's resource on our topic can be found [here]({}). Please do give it a read through if you'd like to refresh your understanding and see some code samples!\n\n".format(get_env(ENV_RESOURCE)) +
-        "The questions will be projected in the Mainspace from 1:45 PM to 2:45 PM. The leftmost question will tend to be more introductory, while the rightmost question will typically have a more involved implementation.\n\nIf you'd like to be notified whenever Post-lunch Prep makes this post, please feel free to join the User Group @*PLPRemindMe* by requesting it in this stream, PMing someone in the user group, or PMing today's host, {} <3".format(get_env(ENV_HOST))
+        "The questions will be projected in the Mainspace from 1:45 PM to 2:45 PM. The leftmost question will tend to be more introductory, while the rightmost question will typically have a more involved implementation.\n\nIf you'd like to be notified whenever Post-lunch Prep posts, please feel free to join the User Group @*PLPRemindMe* by requesting it in this stream, PMing someone in the user group, or PMing today's host, {} <3".format(get_env(ENV_HOST))
     ),
 
     ANNOUNCE: lambda: (
@@ -119,13 +119,14 @@ ANNOUNCEMENTS = {
         "1) {}\n".format(get_env(ENV_ONE)) +
         "2) {}\n\n".format(get_env(ENV_TWO)) +
         "If you're interested in pairing come to the projector in the main space and we'll see if we can match you up :). {} will be running today's session!\n\n".format(get_env(ENV_HOST)) +
-        "Please feel free to join us in Turing @ 2:45 PM for our discussion!"
+        "Please feel free to join us in Turing @ 2:45 PM for our discussion!\n\n" +
+        "@*PLPRemindMe*"
     ),
 
     DISCUSS: lambda: (
         "Our post-lunch prep discussion will be in Turing in 10 minutes!\n\n"
         "Please come join regardless of whether you have completed, or even attempted, the questions :)\n\n"
-        "If you have a solution you would like to present or discuss, send it over via PM to {}.".format(get_env(ENV_HOST))
+        "If you have a solution you would like to present or discuss, send it over via PM to {}.\n\n@*PLPRemindMe*".format(get_env(ENV_HOST))
     )
 }
 
