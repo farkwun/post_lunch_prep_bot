@@ -119,13 +119,14 @@ ANNOUNCEMENTS = {
         "1) {}\n".format(get_env(ENV_ONE)) +
         "2) {}\n\n".format(get_env(ENV_TWO)) +
         "If you're interested in pairing come to the projector in the main space and we'll see if we can match you up :). {} will be running today's session!\n\n".format(get_env(ENV_HOST)) +
-        "Please feel free to join us in Turing @ 2:45 PM for our discussion!"
+        "Please feel free to join us in Turing @ 2:45 PM for our discussion!\n\n" +
+        "@*PLPRemindMe*"
     ),
 
     DISCUSS: lambda: (
         "Our post-lunch prep discussion will be in Turing in 10 minutes!\n\n"
         "Please come join regardless of whether you have completed, or even attempted, the questions :)\n\n"
-        "If you have a solution you would like to present or discuss, send it over via PM to {}.".format(get_env(ENV_HOST))
+        "If you have a solution you would like to present or discuss, send it over via PM to {}.\n\n@*PLPRemindMe*".format(get_env(ENV_HOST))
     )
 }
 
