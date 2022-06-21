@@ -19,7 +19,7 @@ lxml==4.1.1
 MarkupSafe==1.0
 mock==2.0.0
 mypy==0.560
-numpy==1.14.2
+numpy==1.22.0
 pbr==3.1.1
 pkginfo==1.4.1
 prompt-toolkit==1.0.15
